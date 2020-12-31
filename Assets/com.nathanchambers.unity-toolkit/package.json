@@ -4,6 +4,6 @@
     "displayName": "Unity Toolkit",
     "unity": "2020.1",
     "dependencies": {
-        "com.nathanchambers.unity-errors": "https://github.com/NathanChambers/unity-packages.git#unity-errors"
+        "com.nathanchambers.unity-errors": "1.0.0"
     }
 }
