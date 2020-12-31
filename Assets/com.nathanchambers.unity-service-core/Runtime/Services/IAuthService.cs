@@ -2,5 +2,5 @@
 
 public interface IAuthService : IService {
 	void Login(Action<IUser, Error> response);
-	void Logout(Action<bool, string> response);
+	void Logout(Action<Error> response);
 }
