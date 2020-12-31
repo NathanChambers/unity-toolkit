@@ -3,4 +3,4 @@ default:
 
 .PHONY: deploy
 deploy:
-	git subtree push --prefix com.nathanchambers.unity-toolkit origin upm
+	git subtree push --prefix Assets/com.nathanchambers.unity-toolkit origin upm

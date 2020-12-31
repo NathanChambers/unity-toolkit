@@ -1,6 +1,6 @@
 {
     "name": "com.nathanchambers.unity-toolkit",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "displayName": "Unity Toolkit",
     "unity": "2020.1",
     "dependencies": {}
