@@ -1,6 +1,19 @@
-| Package Name                              | URL                                                                           | Description                                                       |
-| -----                                     | -----                                                                         | -----                                                             |
-| com.nathanchambers.unity-errors           | https://github.com/NathanChambers/unity-packages.git#unity-errors             | Errror handling utilities                                         |
-| com.nathanchambers.unity-json             | https://github.com/NathanChambers/unity-packages.git#unity-json               | Redistribution of C# SimpleJSON                                   |
-| com.nathanchambers.unity-toolkit          | https://github.com/NathanChambers/unity-packages.git#unity-toolkit            | Collection of utilities used across multiple projects             |
-| com.nathanchambers.unity-service-core     | https://github.com/NathanChambers/unity-packages.git#unity-service-core       | Interconnect for 3rd party services                               |
+## Unity Errors
+Errror handling utilities  
+Pgk: com.nathanchambers.unity-errors  
+URL: https://github.com/NathanChambers/unity-packages.git#unity-errors
+
+## Unity JSON
+Redistribution of C# SimpleJSON  
+Pkg: com.nathanchambers.unity-json  
+URL: https://github.com/NathanChambers/unity-packages.git#unity-json
+
+## Unity Toolkit
+Collection of utilities used across multiple projects  
+Pgk: com.nathanchambers.unity-toolkit  
+URL: https://github.com/NathanChambers/unity-packages.git#unity-toolkit
+
+## Unity Service Core
+Interconnect for 3rd party services  
+Pgk: com.nathanchambers.unity-service-core  
+URL: https://github.com/NathanChambers/unity-packages.git#unity-service-core
