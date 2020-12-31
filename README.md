@@ -1,6 +1,6 @@
 ## Unity Errors
 Errror handling utilities  
-Pgk: com.nathanchambers.unity-errors  
+Pkg: com.nathanchambers.unity-errors  
 URL: https://github.com/NathanChambers/unity-packages.git#unity-errors
 
 ## Unity JSON
@@ -10,10 +10,10 @@ URL: https://github.com/NathanChambers/unity-packages.git#unity-json
 
 ## Unity Toolkit
 Collection of utilities used across multiple projects  
-Pgk: com.nathanchambers.unity-toolkit  
+Pkg: com.nathanchambers.unity-toolkit  
 URL: https://github.com/NathanChambers/unity-packages.git#unity-toolkit
 
 ## Unity Service Core
 Interconnect for 3rd party services  
-Pgk: com.nathanchambers.unity-service-core  
+Pkg: com.nathanchambers.unity-service-core  
 URL: https://github.com/NathanChambers/unity-packages.git#unity-service-core
