@@ -1,0 +1,7 @@
+{
+    "name": "com.nathanchambers.unity-errors",
+    "version": "1.0.0",
+    "displayName": "Unity Errors",
+    "unity": "2020.1",
+    "dependencies": {}
+}

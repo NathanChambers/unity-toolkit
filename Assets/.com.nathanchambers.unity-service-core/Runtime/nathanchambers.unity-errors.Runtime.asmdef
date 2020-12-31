@@ -1,0 +1,14 @@
+{
+    "name": "com.nathanchambers.unity-services-core",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": ["ENABLE_SERVICES"],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
