@@ -1,5 +1,6 @@
 {
     "name": "com.nathanchambers.unity-json",
+    "description": "https://github.com/NathanChambers/unity-packages",
     "version": "1.0.0",
     "displayName": "Unity JSON",
     "unity": "2020.1",

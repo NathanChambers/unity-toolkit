@@ -1,5 +1,6 @@
-Collection of Unity packages
-
-### Packages
-- unity-toolkit : Collection of utilities used across multiple projects
-- unity-json : Redistribution of C# SimpleJSON
+| Package Name                              | URL                                                                           | Description                                                       |
+| -----                                     | -----                                                                         | -----                                                             |
+| com.nathanchambers.unity-errors           | https://github.com/NathanChambers/unity-packages.git#unity-errors             | Errror handling utilities                                         |
+| com.nathanchambers.unity-json             | https://github.com/NathanChambers/unity-packages.git#unity-json               | Redistribution of C# SimpleJSON                                   |
+| com.nathanchambers.unity-toolkit          | https://github.com/NathanChambers/unity-packages.git#unity-toolkit            | Collection of utilities used across multiple projects             |
+| com.nathanchambers.unity-service-core     | https://github.com/NathanChambers/unity-packages.git#unity-service-core       | Interconnect for 3rd party services                               |

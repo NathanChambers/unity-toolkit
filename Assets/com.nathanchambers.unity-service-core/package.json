@@ -1,5 +1,6 @@
 {
     "name": "com.nathanchambers.unity-service-core",
+    "description": "https://github.com/NathanChambers/unity-packages",
     "version": "1.0.0",
     "displayName": "Unity Service Manager",
     "unity": "2020.1",
