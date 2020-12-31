@@ -1,10 +1,10 @@
 default:
 	@echo
 
-.PHONY: deploy-all deploy-unity-json deploy-unity-toolkit
+deploy-all: deploy-unity-json deploy-unity-toolkit
 
 .PHONY: deploy-unity-json
-deploy-toolkit:
+deploy-unity-json:
 	git subtree push --prefix Assets/com.nathanchambers.unity-json origin unity-json
 
 .PHONY: deploy-unity-toolkit

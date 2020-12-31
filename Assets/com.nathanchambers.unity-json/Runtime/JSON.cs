@@ -1167,7 +1167,7 @@ namespace JSON {
     }
     // End of JSONLazyCreator
 
-    public static class IO {
+    public static class JSONUtil {
         public static JSONNode Parse(string aJSON) {
             return JSONNode.Parse(aJSON);
         }
