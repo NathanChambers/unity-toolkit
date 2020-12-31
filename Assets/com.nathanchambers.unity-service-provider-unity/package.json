@@ -2,7 +2,7 @@
     "name": "com.nathanchambers.unity-service-provider-unity",
     "description": "https://github.com/NathanChambers/unity-packages",
     "version": "1.0.0",
-    "displayName": "Unity Service Core",
+    "displayName": "Unity Service : Unity Provider",
     "unity": "2020.1",
     "dependencies": {
         "com.nathanchambers.unity-service-core": "1.0.0",
