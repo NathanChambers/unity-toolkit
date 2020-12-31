@@ -1,0 +1,7 @@
+{
+    "name": "com.nathanchambers.unity-json",
+    "version": "1.0.0",
+    "displayName": "Unity JSON",
+    "unity": "2020.1",
+    "dependencies": {}
+}
