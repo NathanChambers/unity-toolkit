@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-public interface IProvider {
-
+﻿public interface IProvider {
+    void Initialise();
+    void Cleanup();
+    ServiceType GetService<ServiceType>() where ServiceType : IService;
 }

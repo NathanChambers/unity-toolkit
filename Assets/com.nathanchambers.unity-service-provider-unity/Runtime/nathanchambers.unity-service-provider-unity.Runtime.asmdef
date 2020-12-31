@@ -1,0 +1,21 @@
+{
+    "name": "com.nathanchambers.unity-service-provider-unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fc82581741a5c9a4b839abbd4121b875",
+        "GUID:f0533cd9b0722c948a54d15d9cd44c5c",
+        "GUID:ff6de30450f3748908ff580f6ec64d9a",
+        "GUID:60bfecf5cb232594891bc622f40d6bed",
+        "GUID:ac145e6b8c6034cdbadc8c6e26aedbcf",
+        "GUID:1e8e55397bd004beaba78a667566665f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
