@@ -47,10 +47,6 @@ namespace Toolkit {
 			return indent + str;
 		}
 
-		public static string Localise(this string term) {
-			return Localisation.Instance.Localise(term);
-		}
-
 		public static float ToFloat(this Guid guid) {
 			string guidStr = guid.ToString();
 			return guidStr.GetHashCode();
