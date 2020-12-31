@@ -1,7 +1,11 @@
 default:
 	@echo
 
-deploy-all: deploy-unity-errors deploy-unity-json deploy-unity-toolkit deploy-unity-service-core
+deploy-all: \
+deploy-unity-errors\
+deploy-unity-json\
+deploy-unity-toolkit\
+deploy-unity-service-core
 
 .PHONY: deploy-unity-errors
 deploy-unity-errors:
