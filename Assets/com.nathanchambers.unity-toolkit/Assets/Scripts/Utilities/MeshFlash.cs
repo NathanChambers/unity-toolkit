@@ -6,7 +6,6 @@ public class MeshFlash {
     private Dictionary<Material, Color> initialColors = new Dictionary<Material, Color>();
     private float fadeInDuration = 0.0f;
     private float fadeOutDuration = 0.0f;
-    private Coroutine flashCoroutine = null;
     private Color flashColor = Color.white;
 
     public MeshFlash(GameObject _gameObject, Color _color, float _fadeInDuration, float _fadeOutDuration) {
