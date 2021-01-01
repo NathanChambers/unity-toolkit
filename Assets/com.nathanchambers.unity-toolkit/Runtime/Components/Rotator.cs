@@ -1,24 +1,20 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Toolkit {
+public class Rotator : MonoBehaviour {
+    public Vector3 axis;
+    public float speed;
 
-    public class Rotator : MonoBehaviour {
-        public Vector3 axis;
-        public float speed;
+    private float angle = 0.0f;
 
-        private float angle = 0.0f;
-
-        public void Start() {
-            angle = UnityEngine.Random.Range(0, 360);
-        }
-
-        public void Update() {
-            angle += Time.deltaTime * speed;
-            var rotation = transform.rotation;
-            transform.rotation = Quaternion.AngleAxis(angle, axis);;
-        }
+    public void Start() {
+        angle = UnityEngine.Random.Range(0, 360);
     }
 
+    public void Update() {
+        angle += Time.deltaTime * speed;
+        var rotation = transform.rotation;
+        transform.rotation = Quaternion.AngleAxis(angle, axis);;
+    }
 }

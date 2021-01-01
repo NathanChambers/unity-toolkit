@@ -1,16 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace Toolkit {
-
-    [ExecuteInEditMode]
-    public class MainLight : MonoBehaviour {
-        void Start() {
-            Shader.SetGlobalVector("_MainLightDir", -transform.forward);
-        }
-
-        void Update() {
-            Shader.SetGlobalVector("_MainLightDir", -transform.forward);
-        }
+[ExecuteInEditMode]
+public class MainLight : MonoBehaviour {
+    void Start() {
+        Shader.SetGlobalVector("_MainLightDir", -transform.forward);
     }
 
+    void Update() {
+        Shader.SetGlobalVector("_MainLightDir", -transform.forward);
+    }
 }
