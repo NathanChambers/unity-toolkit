@@ -1,4 +1,7 @@
-Redistribution of C# gRPC as Unity Package
+## Unity gRPC
+Redistribution of Unity gRPC Package v2.26.0  
+Pkg: [com.nathanchambers.unity-grpc](https://github.com/NathanChambers/unity-packages/tree/unity-grpc)  
+UPM: https://github.com/NathanChambers/unity-packages.git#unity-grpc
 
 gRPC Package Archive v2.26.0  
 https://packages.grpc.io/archive/2019/12/a02d6b9be81cbadb60eed88b3b44498ba27bcba9-edd81ac6-e3d1-461a-a263-2b06ae913c3f/index.xml

@@ -1,3 +1,7 @@
-Redistribution of SimpleJSON as Unity Package
+# Unity JSON
+Redistribution of C# SimpleJSON  
+Pkg: [com.nathanchambers.unity-json](https://github.com/NathanChambers/unity-packages/tree/unity-json)  
+UPM: https://github.com/NathanChambers/unity-packages.git#unity-json
 
-https://wiki.unity3d.com/index.php/SimpleJSON
+SimpleJSON  
+https://wiki.unity3d.com/index.php/SimpleJSON  
