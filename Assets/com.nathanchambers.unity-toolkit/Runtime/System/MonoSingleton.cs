@@ -1,47 +1,51 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour {
-    private static bool valid = false;
-    private static T instance = null;
+namespace Toolkit {
 
-    public static T Instance {
-        get {
-            if (valid == false) {
-                Debug.LogErrorFormat("No instance of {0} exists", typeof(T).Name);
-                return null;
-            }
-            return instance;
-        }
-    }
+	public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour {
+		private static bool valid = false;
+		private static T instance = null;
 
-    public static bool InstanceExists {
-        get {
-            return valid;
-        }
-    }
+		public static T Instance {
+			get {
+				if (valid == false) {
+					Debug.LogErrorFormat("No instance of {0} exists", typeof(T).Name);
+					return null;
+				}
+				return instance;
+			}
+		}
 
-    public virtual void Awake() {
-        if (valid == true) {
-            Debug.LogWarningFormat("Second singleton instance of {0} at {1}. This instance has been ignored.", typeof(T).Name, Helpers.GameObjectPath(gameObject));
-            return;
-        }
+		public static bool InstanceExists {
+			get {
+				return valid;
+			}
+		}
 
-        instance = this as T;
-        valid = true;
-    }
+		public virtual void Awake() {
+			if (valid == true) {
+				Debug.LogWarningFormat("Second singleton instance of {0} at {1}. This instance has been ignored.", typeof(T).Name, Helpers.GameObjectPath(gameObject));
+				return;
+			}
 
-    public virtual void OnApplicationQuit() {
-        if (instance != this) {
-            return;
-        }
-    }
+			instance = this as T;
+			valid = true;
+		}
 
-    public virtual void OnDestroy() {
-        if (instance != this) {
-            return;
-        }
+		public virtual void OnApplicationQuit() {
+			if (instance != this) {
+				return;
+			}
+		}
 
-        instance = null;
-        valid = false;
-    }
+		public virtual void OnDestroy() {
+			if (instance != this) {
+				return;
+			}
+
+			instance = null;
+			valid = false;
+		}
+	}
+
 }

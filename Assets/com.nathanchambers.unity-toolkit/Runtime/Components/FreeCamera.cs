@@ -1,74 +1,78 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FreeCamera : MonoSingleton<FreeCamera> {
+namespace Toolkit {
 
-    public float velocity = 10.0f;
-    public float sensitivity = 1.0f;
+	public class FreeCamera : MonoSingleton<FreeCamera> {
 
-    private bool usingFreeCamera = false;
-    private float positionScale = 1.0f;
+		public float velocity = 10.0f;
+		public float sensitivity = 1.0f;
 
-    private bool cacheCursorVisible = false;
-    private CursorLockMode cacheCursorLockState = CursorLockMode.None;
-    private Vector3 cachePosition = Vector3.zero;
-    private Quaternion cacheRotation = Quaternion.identity;
+		private bool usingFreeCamera = false;
+		private float positionScale = 1.0f;
 
-    public void Update() {
-        if (Input.GetKeyDown(KeyCode.F10) == true) {
-            usingFreeCamera = !usingFreeCamera;
+		private bool cacheCursorVisible = false;
+		private CursorLockMode cacheCursorLockState = CursorLockMode.None;
+		private Vector3 cachePosition = Vector3.zero;
+		private Quaternion cacheRotation = Quaternion.identity;
 
-            if (usingFreeCamera == true) {
-                CacheValues();
-            } else {
-                RestoreValues();
-            }
+		public void Update() {
+			if (Input.GetKeyDown(KeyCode.F10) == true) {
+				usingFreeCamera = !usingFreeCamera;
 
-            Debug.LogFormat("Free Camera {0}", usingFreeCamera == true ? "Enabled" : "Disabled");
-        }
+				if (usingFreeCamera == true) {
+					CacheValues();
+				} else {
+					RestoreValues();
+				}
 
-        if (usingFreeCamera == true) {
-            UpdateFreeCamera();
-        }
-    }
+				Debug.LogFormat("Free Camera {0}", usingFreeCamera == true ? "Enabled" : "Disabled");
+			}
 
-    private void UpdateFreeCamera() {
+			if (usingFreeCamera == true) {
+				UpdateFreeCamera();
+			}
+		}
 
-        bool shiftDown = Input.GetKey(KeyCode.LeftShift);
+		private void UpdateFreeCamera() {
 
-        float mouseX = Input.GetAxis(InputCode.LookYaw);
-        float mouseY = Input.GetAxis(InputCode.LookPitch);
-        Vector3 euler = transform.localRotation.eulerAngles;
-        euler.x -= mouseY * sensitivity;
-        euler.y += mouseX * sensitivity;
-        transform.localRotation = Quaternion.Euler(euler);
+			bool shiftDown = Input.GetKey(KeyCode.LeftShift);
 
-        Vector3 positionDelta = Vector3.zero;
-        positionDelta += transform.forward * Input.GetAxisRaw(InputCode.Depth);
-        positionDelta += transform.right * Input.GetAxisRaw(InputCode.Horizontal);
-        positionDelta += transform.up * Input.GetAxisRaw(InputCode.Vertical);
+			float mouseX = Input.GetAxis(InputCode.LookYaw);
+			float mouseY = Input.GetAxis(InputCode.LookPitch);
+			Vector3 euler = transform.localRotation.eulerAngles;
+			euler.x -= mouseY * sensitivity;
+			euler.y += mouseX * sensitivity;
+			transform.localRotation = Quaternion.Euler(euler);
 
-        positionScale += Input.GetAxisRaw(InputCode.ScrollWheel) * 5.0f;
-        if (positionScale < 1.0f) {
-            positionScale = 1.0f;
-        }
+			Vector3 positionDelta = Vector3.zero;
+			positionDelta += transform.forward * Input.GetAxisRaw(InputCode.Depth);
+			positionDelta += transform.right * Input.GetAxisRaw(InputCode.Horizontal);
+			positionDelta += transform.up * Input.GetAxisRaw(InputCode.Vertical);
 
-        transform.localPosition = transform.localPosition + positionDelta.normalized * Time.unscaledDeltaTime * positionScale * (shiftDown ? 2.0f : 1.0f);
-    }
+			positionScale += Input.GetAxisRaw(InputCode.ScrollWheel) * 5.0f;
+			if (positionScale < 1.0f) {
+				positionScale = 1.0f;
+			}
 
-    private void CacheValues() {
-        cacheCursorVisible = Cursor.visible;
-        cacheCursorLockState = Cursor.lockState;
-        cachePosition = transform.position;
-        cacheRotation = transform.rotation;
+			transform.localPosition = transform.localPosition + positionDelta.normalized * Time.unscaledDeltaTime * positionScale * (shiftDown ? 2.0f : 1.0f);
+		}
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+		private void CacheValues() {
+			cacheCursorVisible = Cursor.visible;
+			cacheCursorLockState = Cursor.lockState;
+			cachePosition = transform.position;
+			cacheRotation = transform.rotation;
 
-    private void RestoreValues() {
-        Cursor.visible = cacheCursorVisible;
-        Cursor.lockState = cacheCursorLockState;
-        transform.position = cachePosition;
-        transform.rotation = cacheRotation;
-    }
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+
+		private void RestoreValues() {
+			Cursor.visible = cacheCursorVisible;
+			Cursor.lockState = cacheCursorLockState;
+			transform.position = cachePosition;
+			transform.rotation = cacheRotation;
+		}
+	}
+
 }
