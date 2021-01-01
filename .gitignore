@@ -5,6 +5,7 @@ Library/
 Logs/
 Temp/
 UserSettings/
+Packages/packages-lock.json
 obj/
 
 Assets/*
