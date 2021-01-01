@@ -8,6 +8,11 @@ Redistribution of C# SimpleJSON
 Pkg: com.nathanchambers.unity-json  
 URL: https://github.com/NathanChambers/unity-packages.git#unity-json
 
+## Unity gRPC
+Redistribution of Unity gRPC Package v2.26.0  
+Pkg: com.nathanchambers.unity-grpc  
+URL: https://github.com/NathanChambers/unity-packages.git#unity-grpc
+
 ## Unity Toolkit
 Collection of utilities used across multiple projects  
 Pkg: com.nathanchambers.unity-toolkit  
