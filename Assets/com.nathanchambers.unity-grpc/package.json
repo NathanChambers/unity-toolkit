@@ -3,6 +3,5 @@
     "description": "https://github.com/NathanChambers/unity-packages",
     "version": "2.26.0",
     "displayName": "Unity gRPC",
-    "unity": "2020.1",
-    "dependencies": {}
+    "unity": "2020.1"
 }
