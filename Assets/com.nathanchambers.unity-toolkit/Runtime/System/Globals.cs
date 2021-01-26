@@ -58,7 +58,7 @@ namespace Toolkit {
             Requires.NotNull(obj);
 
             var objType = obj.GetType();
-            var fields = objType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            var fields = objType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
             foreach(var field in fields) {
                 var type = field.FieldType;
