@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toolkit {
 
-    public class Quad : MonoBehaviour {
+    public class Quad : MonoBehaviourEx {
         private MeshRenderer meshRenderer = null;
         private MeshFilter meshFilter = null;
         private Mesh mesh = null;
@@ -42,7 +42,9 @@ namespace Toolkit {
             Rebuild();
         }
 
-        public void Update() {
+        public override void Update() {
+            base.Update();
+            
             if (isDirty == true) {
                 Rebuild();
                 isDirty = false;

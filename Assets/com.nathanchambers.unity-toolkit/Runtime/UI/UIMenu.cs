@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Toolkit {
-    public abstract class UIMenu : MonoBehaviour {
+    public abstract class UIMenu : MonoBehaviourEx {
         public string MenuID = string.Empty;
         public abstract void Initialise(UIMenu parent);
         public abstract void Activated();

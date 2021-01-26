@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Toolkit {
 	[RequireComponent(typeof(Canvas), typeof(GraphicRaycaster))]
-	public class GestureManager : MonoBehaviour, IGlobal, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler {
+	public class GestureManager : MonoBehaviourEx, IGlobal, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler {
 
 		public const int POINTER_CODE_LEFT_CLICK = -1;
 		public const int POINTER_CODE_RIGHT_CLICK = -2;
@@ -19,6 +19,11 @@ namespace Toolkit {
 		public Action<PointerEventData> Drag;
 		public Action<PointerEventData> DragEnd;
 		public Action<PointerEventData> Tap;
+
+		public override void Awake() {
+			base.Awake();
+			Globals.Register(this);
+		}
 
 		public void OnPointerDown(PointerEventData eventData) {
 			if (eventData.pointerCurrentRaycast.gameObject != gameObject) {

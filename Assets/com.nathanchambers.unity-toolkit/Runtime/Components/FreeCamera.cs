@@ -2,7 +2,7 @@
 
 namespace Toolkit {
 
-	public class FreeCamera : MonoBehaviour, IGlobal {
+	public class FreeCamera : MonoBehaviourEx, IGlobal {
 
 		public float velocity = 10.0f;
 		public float sensitivity = 1.0f;
@@ -15,7 +15,14 @@ namespace Toolkit {
 		private Vector3 cachePosition = Vector3.zero;
 		private Quaternion cacheRotation = Quaternion.identity;
 
-		public void Update() {
+		public override void Awake() {
+			base.Awake();
+			Globals.Register(this);
+		}
+
+		public override void Update() {
+			base.Update();
+
 			if (Input.GetKeyDown(KeyCode.F10) == true) {
 				usingFreeCamera = !usingFreeCamera;
 

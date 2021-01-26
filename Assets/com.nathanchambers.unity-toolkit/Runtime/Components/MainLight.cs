@@ -3,12 +3,14 @@
 namespace Toolkit {
 
     [ExecuteInEditMode]
-    public class MainLight : MonoBehaviour {
-        void Start() {
+    public class MainLight : MonoBehaviourEx {
+        public override void Start() {
+            base.Start();
             Shader.SetGlobalVector("_MainLightDir", -transform.forward);
         }
 
-        void Update() {
+        public override void Update() {
+            base.Update();
             Shader.SetGlobalVector("_MainLightDir", -transform.forward);
         }
     }

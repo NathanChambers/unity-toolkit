@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toolkit {
 
-    public class UIMenuController : MonoBehaviour, IGlobal {
+    public class UIMenuController : MonoSingleton<UIMenuController>, IGlobal {
 
         public Transform _uiRoot;
         private Stack<UIMenu> menus = new Stack<UIMenu>();
@@ -13,6 +13,11 @@ namespace Toolkit {
             get {
                 return menus.Count;
             }
+        }
+
+        public override void Awake() {
+            base.Awake();
+            Globals.Register(this);
         }
 
         public T Push<T>(Transform uiParent)where T : UIMenu {

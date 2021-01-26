@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace Toolkit {
 
     [RequireComponent(typeof(Image)), RequireComponent(typeof(RectTransform))]
-    public class UIFixedTiledSize : MonoBehaviour {
+    public class UIFixedTiledSize : MonoBehaviourEx {
 
         public bool MatchX = true;
         public bool MatchY = true;

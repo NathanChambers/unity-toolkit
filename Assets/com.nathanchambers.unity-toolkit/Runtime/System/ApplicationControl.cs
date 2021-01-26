@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toolkit {
 
-    public class ApplicationControl : MonoBehaviour, IGlobal {
+    public class ApplicationControl : MonoSingleton<ApplicationControl>, IGlobal {
         public Action OnBackground;
         public Action OnForground;
 
@@ -14,6 +14,11 @@ namespace Toolkit {
         private ILogger criticalLogger = new Logger(Debug.unityLogger.logHandler);
 
         ////////////////////////////////////////////////////////////////////////////////
+
+        public override void Awake() {
+            base.Awake();
+            Globals.Register(this);
+        }
 
         public void OnApplicationQuit() {
             if (criticalErrorCoroutine != null) {

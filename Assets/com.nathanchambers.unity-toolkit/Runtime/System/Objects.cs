@@ -3,14 +3,7 @@ using System.Linq;
 using UnityEngine;
 namespace Toolkit {
 
-	public class Objects : MonoBehaviour, IGlobal {
-
-		private static Objects Instance = null;
-
-		public void Awake() {
-			Requires.True(Instance == null);
-			Instance = this;
-		}
+	public class Objects : MonoSingleton<Objects>, IGlobal {
 
 		public delegate int PoolGrowthDelegate(IObjectPool objectPool);
 
@@ -327,8 +320,14 @@ namespace Toolkit {
 
 		////////////////////////////////////////////////////////////////////////////////
 
-		private void Update() {
-			CleanDestructionList();
+		public override void Awake() {
+			base.Awake();
+			Globals.Register(this);
+		}
+
+		public override void Update() {
+			base.Update();
+			CleanDestructionList(); 
 		}
 
 		private void CleanDestructionList() {

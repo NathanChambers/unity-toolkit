@@ -5,17 +5,19 @@ using UnityEngine;
 
 namespace Toolkit {
 
-	public class TrackingCamera : MonoBehaviour {
+	public class TrackingCamera : MonoBehaviourEx {
 		public Transform target;
 		public Vector3 offset;
 
-		public void Start() {
+		public override void Start() {
+			base.Start();
 			if (target == null) {
 				throw new ArgumentNullException("target", "Tracking Camera target is null");
 			}
 		}
 
-		public void Update() {
+		public override void Update() {
+			base.Update();
 			transform.position = target.position + offset;
 		}
 	}

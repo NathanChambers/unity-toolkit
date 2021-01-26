@@ -4,17 +4,19 @@ using UnityEngine;
 
 namespace Toolkit {
 
-    public class Rotator : MonoBehaviour {
+    public class Rotator : MonoBehaviourEx {
         public Vector3 axis;
         public float speed;
 
         private float angle = 0.0f;
 
-        public void Start() {
+        public override void Start() {
+            base.Start();
             angle = UnityEngine.Random.Range(0, 360);
         }
 
-        public void Update() {
+        public override void Update() {
+            base.Update();
             angle += Time.deltaTime * speed;
             var rotation = transform.rotation;
             transform.rotation = Quaternion.AngleAxis(angle, axis);;
