@@ -62,6 +62,10 @@ namespace Toolkit {
 
             foreach(var field in fields) {
                 var type = field.FieldType;
+                if(typeof(T).IsEquivalentTo(type) == true) {
+                    continue;
+                }
+
                 if(typeof(IGlobal).IsAssignableFrom(type) == false) {
                     continue;
                 }
