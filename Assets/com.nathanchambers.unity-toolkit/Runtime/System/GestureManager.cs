@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Toolkit {
 	[RequireComponent(typeof(Canvas), typeof(GraphicRaycaster))]
-	public class GestureManager : MonoSingleton<GestureManager>, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler {
+	public class GestureManager : MonoBehaviour, IGlobal, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler {
 
 		public const int POINTER_CODE_LEFT_CLICK = -1;
 		public const int POINTER_CODE_RIGHT_CLICK = -2;

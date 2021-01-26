@@ -3,7 +3,14 @@ using System.Linq;
 using UnityEngine;
 namespace Toolkit {
 
-	public class Objects : MonoSingleton<Objects> {
+	public class Objects : MonoBehaviour, IGlobal {
+
+		private static Objects Instance = null;
+
+		public void Awake() {
+			Requires.True(Instance == null);
+			Instance = this;
+		}
 
 		public delegate int PoolGrowthDelegate(IObjectPool objectPool);
 
@@ -38,276 +45,276 @@ namespace Toolkit {
 		}
 
 		private class ObjectPool<T> : IObjectPool where T : class,
-		IPooledObject {
+			IPooledObject {
 
-			private IPooledObject prefab = null;
-			private PoolGrowthType growthType = PoolGrowthType.None;
-			private PoolGrowthDelegate growthDelegate = null;
+				private IPooledObject prefab = null;
+				private PoolGrowthType growthType = PoolGrowthType.None;
+				private PoolGrowthDelegate growthDelegate = null;
 
-			private List<T> objects = new List<T>();
-			private List<T> free = new List<T>();
-			private List<T> spawned = new List<T>();
+				private List<T> objects = new List<T>();
+				private List<T> free = new List<T>();
+				private List<T> spawned = new List<T>();
 
-			////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////
 
-			public int ObjectCount {
-				get {
-					if (objects == null) {
-						return 0;
-					}
-					return objects.Count;
-				}
-			}
-
-			public int FreeCount {
-				get {
-					if (free == null) {
-						return 0;
-					}
-					return free.Count;
-				}
-			}
-
-			public int SpawnedCount {
-				get {
-					if (spawned == null) {
-						return 0;
-					}
-					return spawned.Count;
-				}
-			}
-
-			////////////////////////////////////////////////////////////////////////////////
-
-			public ObjectPool(IPooledObject _prefab, PoolGrowthType _growthType, PoolGrowthDelegate _growthDelegate) {
-				prefab = _prefab;
-				growthType = _growthType;
-				growthDelegate = _growthDelegate;
-			}
-
-			public IPooledObject Spawn() {
-				if (free.Count <= 0) {
-					int growthAmount = CalculateGrowthAmount();
-					if (growthAmount > 0) {
-						IncreasePoolSize(growthAmount);
+				public int ObjectCount {
+					get {
+						if (objects == null) {
+							return 0;
+						}
+						return objects.Count;
 					}
 				}
 
-				if (free.Count <= 0) {
-					Debug.LogWarning("Failed to spawn instance, pool is empty.");
-					return null;
+				public int FreeCount {
+					get {
+						if (free == null) {
+							return 0;
+						}
+						return free.Count;
+					}
 				}
 
-				T frontInstance = free[0];
-				if (frontInstance == null) {
-					Debug.LogError("Error occured, pool contained null instance");
-					return null;
+				public int SpawnedCount {
+					get {
+						if (spawned == null) {
+							return 0;
+						}
+						return spawned.Count;
+					}
 				}
 
-				OnInstanceSpawned(frontInstance);
-				return frontInstance;
-			}
+				////////////////////////////////////////////////////////////////////////////////
 
-			public void Recycle(IPooledObject instance) {
-				if (instance == null) {
-					return;
+				public ObjectPool(IPooledObject _prefab, PoolGrowthType _growthType, PoolGrowthDelegate _growthDelegate) {
+					prefab = _prefab;
+					growthType = _growthType;
+					growthDelegate = _growthDelegate;
 				}
 
-				T typedInstance = instance as T;
-				if (typedInstance == null) {
-					return;
+				public IPooledObject Spawn() {
+					if (free.Count <= 0) {
+						int growthAmount = CalculateGrowthAmount();
+						if (growthAmount > 0) {
+							IncreasePoolSize(growthAmount);
+						}
+					}
+
+					if (free.Count <= 0) {
+						Debug.LogWarning("Failed to spawn instance, pool is empty.");
+						return null;
+					}
+
+					T frontInstance = free[0];
+					if (frontInstance == null) {
+						Debug.LogError("Error occured, pool contained null instance");
+						return null;
+					}
+
+					OnInstanceSpawned(frontInstance);
+					return frontInstance;
 				}
 
-				if (objects.Contains(typedInstance) == false) {
-					Debug.LogError("Failed to find instance in pool");
-					return;
-				}
-
-				if (spawned.Contains(typedInstance) == false) {
-					return;
-				}
-
-				OnInstanceRecycled(instance);
-			}
-
-			public void DestroyInstances() {
-				if (objects == null || objects.Count <= 0) {
-					return;
-				}
-
-				foreach (T instance in objects) {
+				public void Recycle(IPooledObject instance) {
 					if (instance == null) {
-						continue;
+						return;
 					}
 
-					GameObject instanceObject = instance.gameObject;
-					if (instanceObject == null) {
-						continue;
+					T typedInstance = instance as T;
+					if (typedInstance == null) {
+						return;
 					}
 
-					UnityEngine.Object.Destroy(instanceObject);
-				}
-
-				objects.Clear();
-				free.Clear();
-				spawned.Clear();
-			}
-
-			public void RecycleInstances() {
-				if (objects == null || objects.Count <= 0) {
-					return;
-				}
-
-				foreach (T instance in objects) {
-					if (instance == null) {
-						continue;
+					if (objects.Contains(typedInstance) == false) {
+						Debug.LogError("Failed to find instance in pool");
+						return;
 					}
 
-					if (spawned.Contains(instance) == false) {
-						continue;
-					}
-
-					GameObject instanceObject = instance.gameObject;
-					if (instanceObject != null) {
-						instanceObject.transform.SetParent(Objects.Instance.transform, false);
-						instanceObject.SetActive(false);
+					if (spawned.Contains(typedInstance) == false) {
+						return;
 					}
 
 					OnInstanceRecycled(instance);
 				}
-			}
 
-			public void IncreasePoolSize(int count) {
-				if (prefab == null) {
-					Debug.LogError("Cannot extend pool size, prefab is null");
-					return;
+				public void DestroyInstances() {
+					if (objects == null || objects.Count <= 0) {
+						return;
+					}
+
+					foreach (T instance in objects) {
+						if (instance == null) {
+							continue;
+						}
+
+						GameObject instanceObject = instance.gameObject;
+						if (instanceObject == null) {
+							continue;
+						}
+
+						UnityEngine.Object.Destroy(instanceObject);
+					}
+
+					objects.Clear();
+					free.Clear();
+					spawned.Clear();
 				}
 
-				GameObject prefabObject = prefab.gameObject;
-				if (prefabObject == null) {
-					Debug.LogError("Cannot extend pool size, prefab gameObject is null");
-					return;
+				public void RecycleInstances() {
+					if (objects == null || objects.Count <= 0) {
+						return;
+					}
+
+					foreach (T instance in objects) {
+						if (instance == null) {
+							continue;
+						}
+
+						if (spawned.Contains(instance) == false) {
+							continue;
+						}
+
+						GameObject instanceObject = instance.gameObject;
+						if (instanceObject != null) {
+							instanceObject.transform.SetParent(Objects.Instance.transform, false);
+							instanceObject.SetActive(false);
+						}
+
+						OnInstanceRecycled(instance);
+					}
 				}
 
-				for (uint i = 0; i < count; ++i) {
-					GameObject instance = UnityEngine.Object.Instantiate(prefabObject);
+				public void IncreasePoolSize(int count) {
+					if (prefab == null) {
+						Debug.LogError("Cannot extend pool size, prefab is null");
+						return;
+					}
+
+					GameObject prefabObject = prefab.gameObject;
+					if (prefabObject == null) {
+						Debug.LogError("Cannot extend pool size, prefab gameObject is null");
+						return;
+					}
+
+					for (uint i = 0; i < count; ++i) {
+						GameObject instance = UnityEngine.Object.Instantiate(prefabObject);
+						if (instance == null) {
+							return;
+						}
+
+						instance.transform.SetParent(Objects.Instance.transform, false);
+						instance.SetActive(false);
+
+						T typedComponent = instance.GetComponent<T>();
+						if (typedComponent == null) {
+							Debug.LogErrorFormat("{0} cannot be cast to {1}", prefab.name, typeof(T).ToString());
+							return;
+						}
+
+						typedComponent.prefab = prefab;
+						OnInstanceAdded(typedComponent);
+					}
+				}
+
+				public IList<CastType> GetPooledObjects<CastType>()where CastType : IPooledObject {
+					List<CastType> typedInstances = objects.Cast<CastType>().ToList();
+					if (typedInstances == null) {
+						return null;
+					}
+					return typedInstances.AsReadOnly();
+				}
+
+				public IList<CastType> GetPooledObjectsFree<CastType>()where CastType : IPooledObject {
+					List<CastType> typedInstances = free.Cast<CastType>().ToList();
+					if (typedInstances == null) {
+						return null;
+					}
+					return typedInstances.AsReadOnly();
+				}
+
+				public IList<CastType> GetPooledObjectsSpawned<CastType>()where CastType : IPooledObject {
+					List<CastType> typedInstances = spawned.Cast<CastType>().ToList();
+					if (typedInstances == null) {
+						return null;
+					}
+					return typedInstances.AsReadOnly();
+				}
+
+				////////////////////////////////////////////////////////////////////////////////
+
+				private int CalculateGrowthAmount() {
+					if (growthDelegate != null) {
+						return growthDelegate.Invoke(this);
+					}
+
+					switch (growthType) {
+						case PoolGrowthType.Append:
+							{
+								return 1;
+							}
+						case PoolGrowthType.Double:
+							{
+								return ObjectCount * 2;
+							}
+						case PoolGrowthType.Half:
+							{
+								return ObjectCount + (ObjectCount / 2);
+							}
+					}
+
+					return 0;
+				}
+
+				private void OnInstanceAdded(IPooledObject instance) {
 					if (instance == null) {
 						return;
 					}
 
-					instance.transform.SetParent(Objects.Instance.transform, false);
-					instance.SetActive(false);
-
-					T typedComponent = instance.GetComponent<T>();
-					if (typedComponent == null) {
-						Debug.LogErrorFormat("{0} cannot be cast to {1}", prefab.name, typeof(T).ToString());
+					T typedInstance = instance as T;
+					if (typedInstance == null) {
 						return;
 					}
 
-					typedComponent.prefab = prefab;
-					OnInstanceAdded(typedComponent);
+					if (objects.Contains(typedInstance) == true) {
+						return;
+					}
+
+					instance.OnEnterPool();
+
+					objects.Add(typedInstance);
+					free.Add(typedInstance);
+				}
+
+				private void OnInstanceSpawned(IPooledObject instance) {
+					if (instance == null) {
+						return;
+					}
+
+					T typedInstance = instance as T;
+					if (typedInstance == null) {
+						return;
+					}
+
+					free.Remove(typedInstance);
+					spawned.Add(typedInstance);
+				}
+
+				private void OnInstanceRecycled(IPooledObject instance) {
+					if (instance == null) {
+						return;
+					}
+
+					T typedInstance = instance as T;
+					if (typedInstance == null) {
+						return;
+					}
+
+					instance.OnEnterPool();
+
+					spawned.Remove(typedInstance);
+					free.Add(typedInstance);
 				}
 			}
-
-			public IList<CastType> GetPooledObjects<CastType>()where CastType : IPooledObject {
-				List<CastType> typedInstances = objects.Cast<CastType>().ToList();
-				if (typedInstances == null) {
-					return null;
-				}
-				return typedInstances.AsReadOnly();
-			}
-
-			public IList<CastType> GetPooledObjectsFree<CastType>()where CastType : IPooledObject {
-				List<CastType> typedInstances = free.Cast<CastType>().ToList();
-				if (typedInstances == null) {
-					return null;
-				}
-				return typedInstances.AsReadOnly();
-			}
-
-			public IList<CastType> GetPooledObjectsSpawned<CastType>()where CastType : IPooledObject {
-				List<CastType> typedInstances = spawned.Cast<CastType>().ToList();
-				if (typedInstances == null) {
-					return null;
-				}
-				return typedInstances.AsReadOnly();
-			}
-
-			////////////////////////////////////////////////////////////////////////////////
-
-			private int CalculateGrowthAmount() {
-				if (growthDelegate != null) {
-					return growthDelegate.Invoke(this);
-				}
-
-				switch (growthType) {
-					case PoolGrowthType.Append:
-						{
-							return 1;
-						}
-					case PoolGrowthType.Double:
-						{
-							return ObjectCount * 2;
-						}
-					case PoolGrowthType.Half:
-						{
-							return ObjectCount + (ObjectCount / 2);
-						}
-				}
-
-				return 0;
-			}
-
-			private void OnInstanceAdded(IPooledObject instance) {
-				if (instance == null) {
-					return;
-				}
-
-				T typedInstance = instance as T;
-				if (typedInstance == null) {
-					return;
-				}
-
-				if (objects.Contains(typedInstance) == true) {
-					return;
-				}
-
-				instance.OnEnterPool();
-
-				objects.Add(typedInstance);
-				free.Add(typedInstance);
-			}
-
-			private void OnInstanceSpawned(IPooledObject instance) {
-				if (instance == null) {
-					return;
-				}
-
-				T typedInstance = instance as T;
-				if (typedInstance == null) {
-					return;
-				}
-
-				free.Remove(typedInstance);
-				spawned.Add(typedInstance);
-			}
-
-			private void OnInstanceRecycled(IPooledObject instance) {
-				if (instance == null) {
-					return;
-				}
-
-				T typedInstance = instance as T;
-				if (typedInstance == null) {
-					return;
-				}
-
-				instance.OnEnterPool();
-
-				spawned.Remove(typedInstance);
-				free.Add(typedInstance);
-			}
-		}
 
 		////////////////////////////////////////////////////////////////////////////////
 
@@ -448,10 +455,6 @@ namespace Toolkit {
 		}
 
 		public static void DestroySingle(GameObject instance, float delay) {
-			if (InstanceExists == false) {
-				return;
-			}
-
 			Instance.DestroySingleInternal(instance, delay);
 		}
 
@@ -499,10 +502,6 @@ namespace Toolkit {
 		}
 
 		public static void DestroySingle<T>(T instance, float delay, bool force = false)where T : Component {
-			if (InstanceExists == false) {
-				return;
-			}
-
 			Instance.DestroySingleInternal(instance, delay);
 		}
 
@@ -557,49 +556,45 @@ namespace Toolkit {
 		}
 
 		public static void CreatePool<T>(T prefab, int initialPoolSize)where T : class,
-		IPooledObject {
-			Instance.CreatePoolInternal(prefab, initialPoolSize, PoolGrowthType.Append, null);
-		}
+			IPooledObject {
+				Instance.CreatePoolInternal(prefab, initialPoolSize, PoolGrowthType.Append, null);
+			}
 
 		public static void CreatePool<T>(T prefab, int initialPoolSize, PoolGrowthType growthType)where T : class,
-		IPooledObject {
-			Instance.CreatePoolInternal(prefab, initialPoolSize, growthType, null);
-		}
+			IPooledObject {
+				Instance.CreatePoolInternal(prefab, initialPoolSize, growthType, null);
+			}
 
 		public static void CreatePool<T>(T prefab, int initialPoolSize, PoolGrowthDelegate growthDelegate)where T : class,
-		IPooledObject {
-			Instance.CreatePoolInternal(prefab, initialPoolSize, PoolGrowthType.Append, growthDelegate);
-		}
+			IPooledObject {
+				Instance.CreatePoolInternal(prefab, initialPoolSize, PoolGrowthType.Append, growthDelegate);
+			}
 
 		private void CreatePoolInternal<T>(T prefab, int initialPoolSize, PoolGrowthType growthType, PoolGrowthDelegate growthDelegate)where T : class,
-		IPooledObject {
-			if (prefab == null) {
-				return;
-			}
+			IPooledObject {
+				if (prefab == null) {
+					return;
+				}
 
-			if (objectPools.ContainsKey(prefab) == true) {
-				Debug.LogErrorFormat("Failed to create pool. Pool already exists for {0}", prefab.name);
-				return;
-			}
+				if (objectPools.ContainsKey(prefab) == true) {
+					Debug.LogErrorFormat("Failed to create pool. Pool already exists for {0}", prefab.name);
+					return;
+				}
 
-			IObjectPool objectPool = new ObjectPool<T>(prefab, growthType, growthDelegate);
-			if (objectPool == null) {
-				Debug.LogError("Failed to create pool. Unknown reason");
-				return;
-			}
+				IObjectPool objectPool = new ObjectPool<T>(prefab, growthType, growthDelegate);
+				if (objectPool == null) {
+					Debug.LogError("Failed to create pool. Unknown reason");
+					return;
+				}
 
-			objectPool.IncreasePoolSize(initialPoolSize);
-			objectPools.Add(prefab, objectPool);
-		}
+				objectPool.IncreasePoolSize(initialPoolSize);
+				objectPools.Add(prefab, objectPool);
+			}
 
 		////////////////////////////////////////////////////////////////////////////////
 		// Destroy Pool
 
 		public static void DestroyPool(GameObject prefab) {
-			if (InstanceExists == false) {
-				return;
-			}
-
 			IPooledObject pooledObject = IsPooledObject(prefab);
 			if (pooledObject == null) {
 				Debug.LogError("Failed to destory pool. Prefab provided is not a pooled object");
@@ -610,10 +605,6 @@ namespace Toolkit {
 		}
 
 		public static void DestroyPool(IPooledObject prefab) {
-			if (InstanceExists == false) {
-				return;
-			}
-
 			Instance.DestoryPoolInternal(prefab);
 		}
 
@@ -689,55 +680,55 @@ namespace Toolkit {
 		}
 
 		public static T Spawn<T>(T prefab)where T : class,
-		IPooledObject {
-			return Spawn(prefab, null, prefab.transform.position, prefab.transform.rotation);
-		}
+			IPooledObject {
+				return Spawn(prefab, null, prefab.transform.position, prefab.transform.rotation);
+			}
 
 		public static T Spawn<T>(T prefab, Transform parent)where T : class,
-		IPooledObject {
-			return Spawn(prefab, parent, prefab.transform.position, prefab.transform.rotation);
-		}
+			IPooledObject {
+				return Spawn(prefab, parent, prefab.transform.position, prefab.transform.rotation);
+			}
 
 		public static T Spawn<T>(T prefab, Transform parent, Vector3 position, Quaternion rotation)where T : class,
-		IPooledObject {
-			return Instance.SpawnInternal<T>(prefab, position, rotation, parent);
-		}
+			IPooledObject {
+				return Instance.SpawnInternal<T>(prefab, position, rotation, parent);
+			}
 
 		public T SpawnInternal<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent)where T : class,
-		IPooledObject {
-			if (prefab == null) {
-				Debug.LogError("Cannot spawn null prefab");
-				return null;
-			}
+			IPooledObject {
+				if (prefab == null) {
+					Debug.LogError("Cannot spawn null prefab");
+					return null;
+				}
 
-			IObjectPool objectPool = GetObjectPool(prefab);
-			if (objectPool == null) {
-				Debug.LogErrorFormat("Need to create a pool for {0} before you spawn an instance.", prefab.name);
-				return null;
-			}
+				IObjectPool objectPool = GetObjectPool(prefab);
+				if (objectPool == null) {
+					Debug.LogErrorFormat("Need to create a pool for {0} before you spawn an instance.", prefab.name);
+					return null;
+				}
 
-			IPooledObject instance = objectPool.Spawn();
-			if (instance == null) {
-				return null;
-			}
+				IPooledObject instance = objectPool.Spawn();
+				if (instance == null) {
+					return null;
+				}
 
-			T typedInstance = instance as T;
-			if (typedInstance == null) {
-				Debug.LogError("Cannot spawn instance, incompatible type");
-				objectPool.Recycle(instance);
-				return null;
-			}
+				T typedInstance = instance as T;
+				if (typedInstance == null) {
+					Debug.LogError("Cannot spawn instance, incompatible type");
+					objectPool.Recycle(instance);
+					return null;
+				}
 
-			GameObject instanceObject = typedInstance.gameObject;
-			if (instanceObject != null) {
-				instanceObject.SetActive(true);
-				instanceObject.transform.SetParent(parent, false);
-				instanceObject.transform.localPosition = position;
-				instanceObject.transform.localRotation = rotation;
-			}
+				GameObject instanceObject = typedInstance.gameObject;
+				if (instanceObject != null) {
+					instanceObject.SetActive(true);
+					instanceObject.transform.SetParent(parent, false);
+					instanceObject.transform.localPosition = position;
+					instanceObject.transform.localRotation = rotation;
+				}
 
-			return typedInstance;
-		}
+				return typedInstance;
+			}
 
 		////////////////////////////////////////////////////////////////////////////////
 		// Recycle

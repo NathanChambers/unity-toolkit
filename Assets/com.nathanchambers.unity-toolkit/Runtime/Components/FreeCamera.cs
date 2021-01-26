@@ -2,7 +2,7 @@
 
 namespace Toolkit {
 
-	public class FreeCamera : MonoSingleton<FreeCamera> {
+	public class FreeCamera : MonoBehaviour, IGlobal {
 
 		public float velocity = 10.0f;
 		public float sensitivity = 1.0f;

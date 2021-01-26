@@ -13,7 +13,11 @@ namespace Toolkit {
         private int line = 0;
         private string message = string.Empty;
 
+        private ApplicationControl applicationControl;
+
         public CriticalErrorException(string _message, [CallerFilePath] string _file = null, [CallerMemberName] string _method = null, [CallerLineNumber] int _line = 0) : base(_message) {
+            Globals.Inject(this);
+
             file = _file;
             method = _method;
             line = _line;
@@ -25,7 +29,7 @@ namespace Toolkit {
         }
 
         private void OnException() {
-            ApplicationControl.Instance.CriticalError(this);
+            applicationControl.CriticalError(this);
         }
 
         public override string Message {

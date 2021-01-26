@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toolkit {
 
-    public class UIMenuController : MonoSingleton<UIMenuController> {
+    public class UIMenuController : MonoBehaviour, IGlobal {
 
         public Transform _uiRoot;
         private Stack<UIMenu> menus = new Stack<UIMenu>();

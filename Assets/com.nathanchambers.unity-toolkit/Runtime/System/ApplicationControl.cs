@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toolkit {
 
-    public class ApplicationControl : MonoSingleton<ApplicationControl> {
+    public class ApplicationControl : MonoBehaviour, IGlobal {
         public Action OnBackground;
         public Action OnForground;
 
@@ -15,7 +15,7 @@ namespace Toolkit {
 
         ////////////////////////////////////////////////////////////////////////////////
 
-        public override void OnApplicationQuit() {
+        public void OnApplicationQuit() {
             if (criticalErrorCoroutine != null) {
                 return;
             }
